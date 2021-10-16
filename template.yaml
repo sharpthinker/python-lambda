@@ -1,0 +1,64 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: python-serverless-on-aws
+
+# https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-specification-template-anatomy-globals.html
+Globals:
+  Api:
+    EndpointConfiguration: REGIONAL
+    TracingEnabled: true
+    # https://awslabs.github.io/aws-lambda-powertools-python/latest/core/event_handler/api_gateway/#cors
+    Cors:
+      AllowOrigin: "'*'"
+      AllowHeaders: "'Content-Type,Authorization,X-Amz-Date'"
+      MaxAge: "'300'"
+    # https://awslabs.github.io/aws-lambda-powertools-python/latest/core/event_handler/api_gateway/#binary-responses
+    BinaryMediaTypes:
+      - "*~1*" # converts to */* for any binary type
+  Function:
+    Timeout: 5
+    MemorySize: 256
+    Runtime: python3.8
+    Tracing: Active # https://docs.aws.amazon.com/lambda/latest/dg/lambda-x-ray.html
+    Layers:
+        - !Sub arn:aws:lambda:${AWS::Region}:017000801446:layer:AWSLambdaPowertoolsPython:3
+    Environment:
+      Variables:
+        # Powertools env vars: https://awslabs.github.io/aws-lambda-powertools-python/#environment-variables
+        LOG_LEVEL: INFO
+        POWERTOOLS_LOGGER_SAMPLE_RATE: 0.1
+        POWERTOOLS_LOGGER_LOG_EVENT: true
+        POWERTOOLS_METRICS_NAMESPACE: to-be-continuous
+        POWERTOOLS_SERVICE_NAME: burger-maker
+
+Resources:
+  BurgerMakerFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html
+    Properties:
+      Handler: app.lambda_handler
+      CodeUri: burger_maker
+      Description: This API delivers burgers
+      # More info about API Event Source: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-property-function-api.html
+      Events:
+        Menu:
+          Type: Api
+          Properties:
+            RestApiId: !Ref BurgerApi
+            Path: /recipes
+            Method: GET
+        Prepare:
+          Type: Api
+          Properties:
+            RestApiId: !Ref BurgerApi
+            Path: /burgers/{recipe}
+            Method: DELETE
+
+  BurgerApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      OpenApiVersion: '2.0'
+      StageName: v1
+Outputs:
+  BurgerApiUrl:
+    Description: "API Gateway endpoint URL for the deployed environment"
+    Value: !Sub "https://${BurgerApi}.execute-api.${AWS::Region}.amazonaws.com/v1"

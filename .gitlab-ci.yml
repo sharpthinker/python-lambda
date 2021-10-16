@@ -1,0 +1,60 @@
+include:
+  # Python template
+  - project: 'to-be-continuous/python'
+    ref: '2.0.3'
+    file: '/templates/gitlab-ci-python.yml'
+  # Sonar template
+  - project: "to-be-continuous/sonar"
+    ref: "1.3.2"
+    file: "/templates/gitlab-ci-sonar.yml"
+  # AWS template
+  - project: 'to-be-continuous/aws'
+    ref: '1.0.1'
+    file: '/templates/gitlab-ci-aws.yml'
+  # Postman template
+  - project: 'to-be-continuous/postman'
+    ref: '2.0.1'
+    file: '/templates/gitlab-ci-postman.yml'
+
+# Global variables
+variables:
+  # Python
+  PYTHON_IMAGE: python:3.8
+  PYTEST_ENABLED: "true"
+  PYTEST_ARGS: "tests/"
+  TEST_REQUIREMENTS_FILE: "requirements-dev.txt"
+  BANDIT_ENABLED: "true"
+  BANDIT_ARGS: "--skip B311 -r burger_maker/"
+
+    # Use SonarQube from sonarcloud.io
+  SONAR_URL: "https://sonarcloud.io"
+  # define organization & projectKey from sonarcloud.io
+  SONAR_BASE_ARGS: >-
+    -Dsonar.host.url=${SONAR_URL}
+    -Dsonar.organization=to-be-continuous
+    -Dsonar.projectKey=to-be-continuous_python-serverless-on-aws
+    -Dsonar.projectName=${CI_PROJECT_NAME}
+    -Dsonar.projectBaseDir=.
+    -Dsonar.links.homepage=${CI_PROJECT_URL}
+    -Dsonar.links.ci=${CI_PROJECT_URL}/-/pipelines
+    -Dsonar.links.issue=${CI_PROJECT_URL}/-/issues
+    -Dsonar.branch.name=${CI_COMMIT_REF_NAME}
+
+  # AWS
+  # use an image with both aws and sam CLI
+  # AWS_CLI_IMAGE: "amazon/aws-sam-cli-build-image-provided:latest"
+  AWS_CLI_IMAGE: "pahud/aws-sam-cli:latest"
+  # AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY defined as secret CI/CD variable
+  AWS_REVIEW_ENABLED: "true"
+  AWS_STAGING_ENABLED: "true"
+  AWS_PROD_ENABLED: "true"
+  AWS_BASE_APP_NAME: "burger-maker" # instead of default project name 'python-serverless-on-aws'
+
+# Pipeline steps
+stages:
+  - build
+  - test
+  - deploy
+  - acceptance
+  - publish
+  - production

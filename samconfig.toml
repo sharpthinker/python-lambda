@@ -1,0 +1,12 @@
+version = 0.1
+
+[default.global.parameters]
+stack_name = "burger-maker-dev"
+region = "us-east-1"
+
+[default.deploy.parameters]
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-1jb6gk5xo9bbp"
+s3_prefix = "burger-maker"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+image_repositories = []

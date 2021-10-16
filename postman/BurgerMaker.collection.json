@@ -1,0 +1,184 @@
+{
+	"info": {
+		"name": "Burger Maker",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "The menu should be as expected",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get menu returns 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Menu is as expected\", function () {",
+							"    var menu = pm.response.json();",
+							"    pm.expect(menu.length).to.eql(6);",
+							"    pm.expect(menu[0]).to.eql(\"cheeseburger\");",
+							"    pm.expect(menu[1]).to.eql(\"bacon\");",
+							"    pm.expect(menu[2]).to.eql(\"farmer\");",
+							"    pm.expect(menu[3]).to.eql(\"fish\");",
+							"    pm.expect(menu[4]).to.eql(\"veggie\");",
+							"    pm.expect(menu[5]).to.eql(\"frenchie\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/recipes",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"recipes"
+					]
+				},
+				"description": "GET /recipes"
+			},
+			"response": []
+		},
+		{
+			"name": "Cheeseburger should be as expected",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Order cheeseburger returns 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"cheeseburger is as expected\", function () {",
+							"    var burger = pm.response.json();",
+							"    pm.expect(burger.name).to.eql(\"cheeseburger\");",
+							"    pm.expect(burger.ingredients.length).to.eql(7);",
+							"    pm.expect(burger.ingredients[0].name).to.eql(\"bun\");",
+							"    pm.expect(burger.ingredients[1].name).to.eql(\"red onion\");",
+							"    pm.expect(burger.ingredients[2].name).to.eql(\"tomato\");",
+							"    pm.expect(burger.ingredients[3].name).to.eql(\"ketchup\");",
+							"    pm.expect(burger.ingredients[4].name).to.eql(\"salad\");",
+							"    pm.expect(burger.ingredients[5].name).to.eql(\"cheddar\");",
+							"    pm.expect(burger.ingredients[6].name).to.eql(\"steak\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/burgers/cheeseburger",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"burgers",
+						"cheeseburger"
+					]
+				},
+				"description": "DELETE /burgers/cheeseburger"
+			},
+			"response": []
+		},
+		{
+			"name": "Order a recipe that doesn't exist should fail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Order a recipe that doesn't exist returns 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/burgers/foie-gras",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"burgers",
+						"foie-gras"
+					]
+				},
+				"description": "DELETE /burgers/foie-gras"
+			},
+			"response": []
+		},
+		{
+			"name": "Order a random burger should succeed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Order a random burger should succeed\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/burgers/any",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"burgers",
+						"any"
+					]
+				},
+				"description": "DELETE /burgers/any"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
