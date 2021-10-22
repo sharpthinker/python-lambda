@@ -9,29 +9,13 @@ from aws_lambda_powertools import Logger, Metrics, Tracer
 from aws_lambda_powertools.logging import correlation_paths
 from aws_lambda_powertools.utilities.typing import LambdaContext
 from aws_lambda_powertools.event_handler.api_gateway import ApiGatewayResolver
+from aws_lambda_powertools.event_handler.exceptions import NotFoundError
 
 # https://awslabs.github.io/aws-lambda-powertools-python/#features
 tracer = Tracer()
 logger = Logger()
 metrics = Metrics()
 app = ApiGatewayResolver()
-
-# error management
-error_prefix_matcher = re.compile('^\\[(.+)\\].*$')
-prefix_to_status = {
-    'ok': 200,
-    'created': 201,
-    'accepted': 202,
-    'nocontent': 204,
-    'badrequest': 400,
-    'unauthorized': 400,
-    'forbidden': 403,
-    'notfound': 404,
-    'conflict': 409,
-    'notimplemented': 501,
-    'unavailable': 503,
-    'serviceunavailable': 503,
-}
 
 # Global variables are reused across execution contexts (if available)
 # session = boto3.Session()
@@ -58,7 +42,7 @@ def prepare_a_burger(recipe):
     
     ingredients = burger_recipes.get(recipe, None)
     if ingredients == None:
-        raise Exception(f"[NotFound] No such recipe: {recipe}")
+        raise NotFoundError(f"No such recipe: {recipe}")
 
     return {
         "name": recipe,
@@ -84,38 +68,4 @@ def lambda_handler(event, context: LambdaContext):
     API Gateway Lambda Proxy Output Format: dict
         Return doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
     """
-    try:
-        # If we're using the default Lambda proxy integration, what should be the format for a successful response ?
-        # response=app.resolve(event, context)
-        # print("response: {response}")
-        # if response is None:
-        #     return {
-        #         "statusCode": 204,
-        #         "headers": get_headers()
-        #     }
-        # else:
-        #     return {
-        #         "statusCode": 200,
-        #         "headers": get_headers(),
-        #         "body": json.dumps(response)
-        #     }
-        return app.resolve(event, context)
-    except Exception as err:
-        logger.exception(err)
-        error_message=str(err)
-        match=error_prefix_matcher.match(error_message)
-        statusCode=500
-        if match is not None:
-            statusCode = prefix_to_status.get(match.group(1).lower(), 500)
-        return {
-            "statusCode": statusCode,
-            "headers": get_headers(),
-            "body": json.dumps({"message": error_message})
-        }
-
-def get_headers():
-    return {
-        "access-control-allow-headers": "Content-Type,Authorization,X-Amz-Date",
-        "access-control-allow-methods": "OPTIONS,HEAD,GET,POST,PUT,PATCH,DELETE",
-        "access-control-allow-origin": "*",
-    }
+    return app.resolve(event, context)
