@@ -54,6 +54,7 @@ variables:
 stages:
   - build
   - test
+  - package-build
   - deploy
   - acceptance
   - publish
