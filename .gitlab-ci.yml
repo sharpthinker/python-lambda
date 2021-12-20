@@ -25,6 +25,7 @@ variables:
   TEST_REQUIREMENTS_FILE: "requirements-dev.txt"
   BANDIT_ENABLED: "true"
   BANDIT_ARGS: "--skip B311 -r burger_maker/"
+  SAFETY_ENABLED: "true"
 
     # Use SonarQube from sonarcloud.io
   SONAR_URL: "https://sonarcloud.io"
