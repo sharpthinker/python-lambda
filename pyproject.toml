@@ -1,0 +1,67 @@
+[build-system]
+# this project relies on "poetry" as a build backend
+# see: https://python-poetry.org/docs/basic-usage/
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "burger_maker"
+version = "0.1.1"
+description = "to-be-continuous project sample featuring Python, SonarQube, AWS (Lambda) and Postman"
+authors = ["Pierre Smeyers <pierre.smeyers@gmail.com>"]
+license = "LGPLv3"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+# new runtime dependencies can be added with 'poetry add xxx'
+python = "^3.9"
+aws-lambda-powertools = "^1.21.1"
+
+[tool.poetry.dev-dependencies]
+# new development dependencies can be added with 'poetry add -D yyy'
+pytest = "^6.2.5"
+pytest-cov = "^3.0.0"
+pytest-env = "^0.6.2"
+black = "^21.12b0"
+mypy = "^0.931"
+
+[tool.pytest.ini_options]
+# this project uses "pytest" for unit testing
+# see: https://docs.pytest.org/en/6.2.x/customize.html#pyproject-toml
+# required Lambda Power Toos env (with pytest-env)
+env = [
+    "POWERTOOLS_TRACE_DISABLED=1",
+    "POWERTOOLS_METRICS_NAMESPACE=test"
+]
+testpaths = [
+    "tests",
+]
+
+[tool.black]
+# this project uses "Black" as code formatter
+# see: https://black.readthedocs.io/en/stable/usage_and_configuration/the_basics.html#usage
+line-length = 88
+target-version = ['py39']
+include = '\.pyi?$'
+extend-exclude = '''
+# A regex preceded with ^/ will apply only to files and directories
+# in the root of the project.
+^/.aws-sam
+'''
+
+[tool.mypy]
+# this project uses "mypy" as a static type checker
+# see: https://mypy.readthedocs.io/en/stable/config_file.html
+python_version = 3.9
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+exclude = [
+    "^/.aws-sam",
+]
+
+[[tool.mypy.overrides]]
+# loosen rules for tests
+module = "tests.*"
+warn_return_any = false
+disallow_untyped_defs = false

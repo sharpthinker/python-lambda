@@ -9,7 +9,7 @@ include:
     file: "/templates/gitlab-ci-sonar.yml"
   # AWS template
   - project: 'to-be-continuous/aws'
-    ref: '1.1.0'
+    ref: '1.1.1'
     file: '/templates/gitlab-ci-aws.yml'
   # Postman template
   - project: 'to-be-continuous/postman'
@@ -19,7 +19,7 @@ include:
 # Global variables
 variables:
   # Python
-  PYTHON_IMAGE: python:3.8
+  PYTHON_IMAGE: python:3.9
   PYTEST_ENABLED: "true"
   PYTEST_ARGS: "tests/"
   TEST_REQUIREMENTS_FILE: "requirements-dev.txt"
@@ -42,9 +42,8 @@ variables:
     -Dsonar.branch.name=${CI_COMMIT_REF_NAME}
 
   # AWS
-  # use an image with both aws and sam CLI
-  # AWS_CLI_IMAGE: "amazon/aws-sam-cli-build-image-provided:latest"
-  AWS_CLI_IMAGE: "pahud/aws-sam-cli:latest"
+  # use an image with both AWS and SAM CLI
+  AWS_CLI_IMAGE: "public.ecr.aws/sam/build-python3.9:latest"
   # AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY defined as secret CI/CD variable
   AWS_REVIEW_ENABLED: "true"
   AWS_STAGING_ENABLED: "true"

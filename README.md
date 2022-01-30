@@ -7,12 +7,13 @@ This project sample shows the usage of _to be continuous_ templates:
 * AWS (Amazon Web Services)
 * Postman
 
-The project deploys a basic serverless API developped in Python (3.8) on AWS Lambda, and implements automated accetance tests with Postman.
+The project deploys a basic serverless API developped in Python (3.9) on AWS Lambda, and implements automated accetance tests with Postman.
 
 ## Python template features
 
 This project uses the following features from the GitLab CI Python template:
 
+* Uses the `pyproject.toml` build specs file with [Poetry](https://python-poetry.org/) as build backend,
 * Enables the [pytest](https://docs.pytest.org/) unit test framework by declaring the `$PYTEST_ENABLED` in the `.gitlab-ci.yml` variables,
 * Enables the [Bandit](https://pypi.org/project/bandit/) SAST analysis job by declaring the `$BANDIT_ENABLED` and skips the `B311`
   test by overriding `$BANDIT_ARGS` in the `.gitlab-ci.yml` variables.
@@ -43,9 +44,7 @@ This project uses the following features from the AWS template:
 
 * Enables review, staging and production environments (by declaring the `$AWS_REVIEW_ENABLED`, `$AWS_STAGING_ENABLED` and `$AWS_PROD_ENABLED` in the project variables); the AWS template implements [environments integration](https://gitlab.com/to-be-continuous/samples/maven-on-gcloud/environments) and review environment cleanup support (manually or when the related development branch is deleted).
 * Configures AWS authentication by specifying AWS credentials (`$AWS_ACCESS_KEY_ID`, `$AWS_SECRET_ACCESS_KEY` and `$AWS_DEFAULT_REGION`) as (secret) CI/CD project variables.
-* Overrides the Docker image used by the template (`AWS_CLI_IMAGE`) with `pahud/aws-sam-cli:latest` as this project also needs to use 
-  `saml CLI`in addition to the `aws CLI` tool. Remark: that could have been the official image
-  from AWS `amazon/aws-sam-cli-build-image-provided:latest` but the first one is much smaller.
+* Overrides the Docker image used by the template (`AWS_CLI_IMAGE`) with the [official](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-image-repositories.html) `public.ecr.aws/sam/build-python3.9:latest`.
 
 In order to perform AWS deployments, the project implements:
 
