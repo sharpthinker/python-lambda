@@ -19,7 +19,7 @@ aws-lambda-powertools = "^1.21.1"
 
 [tool.poetry.dev-dependencies]
 # new development dependencies can be added with 'poetry add -D yyy'
-pytest = "^6.2.5"
+pytest = "^7.0.0"
 pytest-cov = "^3.0.0"
 pytest-env = "^0.6.2"
 black = "^21.12b0"
