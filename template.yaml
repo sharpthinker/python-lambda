@@ -31,7 +31,20 @@ Globals:
         POWERTOOLS_METRICS_NAMESPACE: to-be-continuous
         POWERTOOLS_SERVICE_NAME: burger-maker
 
+Parameters:
+  AppName:
+    Type: String
+    Default: burger-maker-dev
+    Description: the application short name
+  HostedZoneId:
+    Type: String
+    Description: the Route53 hosted zone ID managing the custom DNS
+  CustomDomainCertArn:
+    Type: String
+    Description: the custom DNS certificate ARN
+
 Resources:
+  # The Lambda function
   BurgerMakerFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html
     Properties:
@@ -52,12 +65,46 @@ Resources:
             RestApiId: !Ref BurgerApi
             Path: /burgers/{recipe}
             Method: DELETE
-
+  # The API Gateway
   BurgerApi:
     Type: AWS::Serverless::Api
     Properties:
       OpenApiVersion: '2.0'
       StageName: v1
+      EndpointConfiguration: REGIONAL
+    Domain:
+      DomainName: !Sub ${AppName}.samples.aws.tobecontinuous.xyz
+      CertificateArn: !Ref CustomDomainCertArn
+      Route53:
+        DistributionDomainName: !Sub ${AppName}.samples.aws.tobecontinuous.xyz
+        HostedZoneId: !Ref HostedZoneId
+        # HostedZoneName: samples.aws.tobecontinuous.xyz.
+  # BurgerApiDomain:
+  #   Type: AWS::ApiGateway::DomainName
+  #   Properties:
+  #     DomainName: !Sub ${AppName}.samples.aws.tobecontinuous.xyz
+  #     CertificateArn: !Ref CustomDomainCertArn
+  #     # EndpointConfiguration:
+  #     #   Types:
+  #     #     - REGIONAL
+  # UrlMapping:
+  #   Type: AWS::ApiGateway::BasePathMapping
+  #   DependsOn: 
+  #     - BurgerApi
+  #   Properties:
+  #     DomainName: !Sub ${AppName}.samples.aws.tobecontinuous.xyz
+  #     RestApiId: !Ref BurgerApi
+  #     Stage: v1
+  # DnsRecord:
+  #   Type: 'AWS::Route53::RecordSet'
+  #   Properties:
+  #     HostedZoneName: samples.aws.tobecontinuous.xyz.
+  #     Name: samples.aws.tobecontinuous.xyz.
+  #     Type: A
+  #     AliasTarget:
+  #       HostedZoneId: !GetAtt BurgerApiDomain.RegionalHostedZoneId
+  #       DNSName: !GetAtt BurgerApiDomain.RegionalDomainName
+
 Outputs:
   BurgerApiUrl:
     Description: "API Gateway endpoint URL for the deployed environment"
