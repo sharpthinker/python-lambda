@@ -27,9 +27,9 @@ The Python template also enforces:
 
 This project uses the following features from the SonarQube template:
 
-* Defines the `SONAR_URL` (SonarQube server host),
-* Overrides the `SONAR_BASE_ARGS` with organization & projectKey from [sonarcloud.io](https://sonarcloud.io/),
-* Defines :lock: `$SONAR_AUTH_TOKEN` as secret CI/CD variable,
+* Defines the `SONAR_HOST_URL` (SonarQube server host),
+* Defines `organization` & `projectKey` from [sonarcloud.io](https://sonarcloud.io/) in `sonar-project.properties`,
+* Defines :lock: `$SONAR_TOKEN` as secret CI/CD variable,
 * Uses the `sonar-project.properties` to specify project specific configuration:
     * source and test folders,
     * code coverage report (from `pytest`),

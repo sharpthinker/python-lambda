@@ -1,20 +1,20 @@
 include:
   # Python template
-  - project: 'to-be-continuous/python'
-    ref: '4.2.0'
-    file: '/templates/gitlab-ci-python.yml'
+  - project: "to-be-continuous/python"
+    ref: "5.0.0"
+    file: "/templates/gitlab-ci-python.yml"
   # Sonar template
   - project: "to-be-continuous/sonar"
-    ref: "2.1.0"
+    ref: "3.1.0"
     file: "/templates/gitlab-ci-sonar.yml"
   # AWS template
-  - project: 'to-be-continuous/aws'
-    ref: '2.0.0'
-    file: '/templates/gitlab-ci-aws.yml'
+  - project: "to-be-continuous/aws"
+    ref: "2.0.0"
+    file: "/templates/gitlab-ci-aws.yml"
   # Postman template
-  - project: 'to-be-continuous/postman'
-    ref: '2.1.0'
-    file: '/templates/gitlab-ci-postman.yml'
+  - project: "to-be-continuous/postman"
+    ref: "3.0.0"
+    file: "/templates/gitlab-ci-postman.yml"
 
 # Global variables
 variables:
@@ -27,19 +27,10 @@ variables:
   BANDIT_ARGS: "--skip B311 -r burger_maker/"
   SAFETY_ENABLED: "true"
 
-    # Use SonarQube from sonarcloud.io
-  SONAR_URL: "https://sonarcloud.io"
-  # define organization & projectKey from sonarcloud.io
-  SONAR_BASE_ARGS: >-
-    -Dsonar.host.url=${SONAR_URL}
-    -Dsonar.organization=to-be-continuous
-    -Dsonar.projectKey=to-be-continuous_python-serverless-on-aws
-    -Dsonar.projectName=${CI_PROJECT_NAME}
-    -Dsonar.projectBaseDir=.
-    -Dsonar.links.homepage=${CI_PROJECT_URL}
-    -Dsonar.links.ci=${CI_PROJECT_URL}/-/pipelines
-    -Dsonar.links.issue=${CI_PROJECT_URL}/-/issues
-    -Dsonar.branch.name=${CI_COMMIT_REF_NAME}
+  # Use SonarQube from sonarcloud.io
+  SONAR_HOST_URL: "https://sonarcloud.io"
+  # organization & projectKey defined in sonar-project.properties
+  # SONAR_TOKEN defined as a secret CI/CD variable
 
   # AWS
   # use an image with both AWS and SAM CLI
