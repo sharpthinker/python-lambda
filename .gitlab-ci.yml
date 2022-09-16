@@ -1,7 +1,7 @@
 include:
   # Python template
   - project: "to-be-continuous/python"
-    ref: "5.0.0"
+    ref: "5.1.0"
     file: "/templates/gitlab-ci-python.yml"
   # Sonar template
   - project: "to-be-continuous/sonar"
