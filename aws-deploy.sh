@@ -6,6 +6,13 @@ echo "[aws-deploy] Deploy $appname..."
 # disable AWS CLI pager
 export AWS_PAGER=""
 
+# try to create bucket if it doesn't exist yet
+if ! aws s3 ls "$AWS_SAM_BUCKET"
+then
+  echo "SAM bucket ($AWS_SAM_BUCKET) not found: try to create..."
+  aws s3api create-bucket --bucket "$AWS_SAM_BUCKET" --region "$AWS_DEFAULT_REGION"
+fi
+
 # 1: build
 sam build ${TRACE+--debug}
 
