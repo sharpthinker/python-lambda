@@ -1,11 +1,9 @@
-import os
-import json
 from uuid import uuid4
 
 import pytest
 
 
-class MockContext(object):
+class MockContext:
     def __init__(self, function_name: str):
         self.function_name = function_name
         self.function_version = "v$LATEST"

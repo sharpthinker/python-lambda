@@ -22,6 +22,8 @@ variables:
   PYTHON_IMAGE: python:3.9
   PYTEST_ENABLED: "true"
   PYTEST_ARGS: "tests/"
+  PYLINT_ENABLED: "true"
+  PYLINT_FILES: "burger_maker/ tests/"
   PYTHON_EXTRA_REQS_FILES: "requirements-dev.txt"
   BANDIT_ENABLED: "true"
   BANDIT_ARGS: "--skip B311 -r burger_maker/"

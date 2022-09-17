@@ -6,7 +6,9 @@ from burger_maker import app
 
 @pytest.fixture()
 def _getrecipes_event():
-    with open(file = "./events/GET_recipes_event.json", mode = "r", encoding = "utf-8") as reader:
+    with open(
+        file="./events/GET_recipes_event.json", mode="r", encoding="utf-8"
+    ) as reader:
         return json.load(reader)
 
 
@@ -23,7 +25,11 @@ def test_menu_should_be_as_expected(_getrecipes_event, lambda_context):
 
 @pytest.fixture()
 def _ordercheeseburger_event():
-    with open(file = "./events/DELETE_burgers_cheeseburger_event.json", mode = "r", encoding = "utf-8") as reader:
+    with open(
+        file="./events/DELETE_burgers_cheeseburger_event.json",
+        mode="r",
+        encoding="utf-8",
+    ) as reader:
         return json.load(reader)
 
 
@@ -45,7 +51,9 @@ def test_cheeseburger_should_be_as_expected(_ordercheeseburger_event, lambda_con
 
 @pytest.fixture()
 def _orderanyburger_event():
-    with open(file = "./events/DELETE_burgers_any_event.json", mode = "r", encoding = "utf-8") as reader:
+    with open(
+        file="./events/DELETE_burgers_any_event.json", mode="r", encoding="utf-8"
+    ) as reader:
         return json.load(reader)
 
 
@@ -56,7 +64,9 @@ def test_anyburger_should_be_delivered(_orderanyburger_event, lambda_context):
 
 @pytest.fixture()
 def _ordernonexistingburger_event():
-    with open(file = "./events/DELETE_burgers_foie-gras_event.json", mode = "r", encoding = "utf-8") as reader:
+    with open(
+        file="./events/DELETE_burgers_foie-gras_event.json", mode="r", encoding="utf-8"
+    ) as reader:
         return json.load(reader)
 
 

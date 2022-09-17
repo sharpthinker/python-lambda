@@ -17,11 +17,25 @@ app = ApiGatewayResolver()
 
 
 burger_recipes = {
-    "cheeseburger": ["bun", "red onion", "tomato", "ketchup", "salad", "cheddar", "steak"],
+    "cheeseburger": [
+        "bun",
+        "red onion",
+        "tomato",
+        "ketchup",
+        "salad",
+        "cheddar",
+        "steak",
+    ],
     "bacon": ["bun", "bacon", "garlic sauce", "brie", "steak", "tomato"],
     "farmer": ["bun", "red onion", "bbq sauce", "stilton", "chicken", "tomato"],
     "fish": ["bun", "tartare sauce", "cucumber", "old gouda", "fish fillet"],
-    "veggie": ["bun", "goat cheese", "tomato confit", "red onion", "super-secret veggie steak"],
+    "veggie": [
+        "bun",
+        "goat cheese",
+        "tomato confit",
+        "red onion",
+        "super-secret veggie steak",
+    ],
     "frenchie": ["baguette", "butter", "brie", "smoked ham"],
 }
 
@@ -30,12 +44,14 @@ burger_recipes = {
 def gime_the_menu() -> list[str]:
     return list(burger_recipes.keys())
 
+
 @app.get("/recipes/<recipe>")
 def gime_the_ingredients(recipe: str) -> list[str]:
     ingredients = burger_recipes.get(recipe)
     if ingredients is None:
         raise NotFoundError(f"No such recipe: {recipe}")
     return ingredients
+
 
 @app.delete("/burgers/<recipe>")
 def prepare_a_burger(recipe: str) -> dict[str, Any]:
@@ -65,13 +81,10 @@ def lambda_handler(event: APIGatewayProxyEvent, context: LambdaContext) -> Any:
     ----------
     event: dict, required
         API Gateway Lambda Proxy Input Format
-        Event doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html#api-gateway-simple-proxy-for-lambda-input-format
     context: object, required
         Lambda Context runtime methods and attributes
-        Context doc: https://docs.aws.amazon.com/lambda/latest/dg/python-context-object.html
     Returns
     -------
     API Gateway Lambda Proxy Output Format: dict
-        Return doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
     """
     return app.resolve(event, context)
