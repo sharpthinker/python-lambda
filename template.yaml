@@ -36,12 +36,12 @@ Parameters:
     Type: String
     Default: burger-maker-dev
     Description: the application short name
-  HostedZoneId:
-    Type: String
-    Description: the Route53 hosted zone ID managing the custom DNS
-  CustomDomainCertArn:
-    Type: String
-    Description: the custom DNS certificate ARN
+  # HostedZoneId:
+  #   Type: String
+  #   Description: the Route53 hosted zone ID managing the custom DNS
+  # CustomDomainCertArn:
+  #   Type: String
+  #   Description: the custom DNS certificate ARN
 
 Resources:
   # The Lambda function
@@ -53,13 +53,19 @@ Resources:
       Description: This API delivers burgers
       # More info about API Event Source: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-property-function-api.html
       Events:
-        Menu:
+        GetMenu:
           Type: Api
           Properties:
             RestApiId: !Ref BurgerApi
             Path: /recipes
             Method: GET
-        Prepare:
+        GetRecipe:
+          Type: Api
+          Properties:
+            RestApiId: !Ref BurgerApi
+            Path: /recipes/{recipe}
+            Method: GET
+        OrderBurger:
           Type: Api
           Properties:
             RestApiId: !Ref BurgerApi
@@ -72,13 +78,13 @@ Resources:
       OpenApiVersion: '2.0'
       StageName: v1
       EndpointConfiguration: REGIONAL
-    Domain:
-      DomainName: !Sub ${AppName}.samples.aws.tobecontinuous.xyz
-      CertificateArn: !Ref CustomDomainCertArn
-      Route53:
-        DistributionDomainName: !Sub ${AppName}.samples.aws.tobecontinuous.xyz
-        HostedZoneId: !Ref HostedZoneId
-        # HostedZoneName: samples.aws.tobecontinuous.xyz.
+    # Domain:
+    #   DomainName: !Sub ${AppName}.samples.aws.tobecontinuous.xyz
+    #   CertificateArn: !Ref CustomDomainCertArn
+    #   Route53:
+    #     DistributionDomainName: !Sub ${AppName}.samples.aws.tobecontinuous.xyz
+    #     HostedZoneId: !Ref HostedZoneId
+    #     # HostedZoneName: samples.aws.tobecontinuous.xyz.
   # BurgerApiDomain:
   #   Type: AWS::ApiGateway::DomainName
   #   Properties:
