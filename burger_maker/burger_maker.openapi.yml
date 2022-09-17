@@ -1,0 +1,119 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Burger Maker API
+  description: >
+    This API allows to view the available burger recipes and order a burger
+paths:
+  # GET /recipes
+  /recipes:
+    get:
+      description: Returns the list of burger recipe names
+      responses:
+        '200':
+          description: Successfully returned the list
+          content:
+            application/json:
+              schema:
+                title: Array of recipe names
+                type: array
+                items:
+                  type: string
+  # GET /recipes/<name>
+  /recipes/{recipe}:
+    get:
+      description: Returns a detailed burger recipe
+      parameters:
+        - name: recipe
+          required: true
+          description: the burger recipe name to get
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully returned the list of ingredients
+          content:
+            application/json:
+              schema:
+                title: Array of ingredients
+                type: array
+                items:
+                  type: string
+        '404':
+          description: recipe name not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  # DELETE /burgers/<name>
+  /burgers/{recipe}:
+    delete:
+      description: Orders and return a burger
+      parameters:
+        - name: recipe
+          required: true
+          description: the wanted burger recipe. Use 'any' for a random recipe.
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully prepared the requested burger
+          content:
+            application/json:
+              schema:
+                title: Burger description
+                $ref: '#/components/schemas/Burger'
+        '404':
+          description: recipe name not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+# components
+components:
+  schemas:
+    Burger:
+      title: A prepared burger
+      type: object
+      required:
+        - name
+        - id
+        - ingredients
+      properties:
+        name:
+          type: string
+          description: the burger name (recipe)
+        id:
+          type: string
+          description: the burger traceability ID
+        ingredients:
+          description: list of ingredients
+          type: array
+          items:
+            type: object
+            required:
+              - name
+              - id
+            properties:
+              name:
+                type: string
+                description: the ingredient name
+              id:
+                type: string
+                description: the ingredient traceability ID
+
+    Error:
+      title: API error
+      type: object
+      required:
+        - statusCode
+        - message
+      properties:
+        statusCode:
+          type: integer
+          description: the http status code
+        message:
+          type: string
+          description: the error message

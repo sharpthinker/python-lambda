@@ -1,18 +1,17 @@
 import json
-from typing import Any
 import pytest
 
 from burger_maker import app
 
 
 @pytest.fixture()
-def getrecipes_event():
-    with open("./events/GET_recipes_event.json", "r") as fp:
-        return json.load(fp)
+def _getrecipes_event():
+    with open(file = "./events/GET_recipes_event.json", mode = "r", encoding = "utf-8") as reader:
+        return json.load(reader)
 
 
-def test_menu_should_be_as_expected(getrecipes_event, lambda_context):
-    response = app.lambda_handler(getrecipes_event, lambda_context)
+def test_menu_should_be_as_expected(_getrecipes_event, lambda_context):
+    response = app.lambda_handler(_getrecipes_event, lambda_context)
     expected = json.dumps(
         ["cheeseburger", "bacon", "farmer", "fish", "veggie", "frenchie"],
         separators=(",", ":"),
@@ -23,13 +22,13 @@ def test_menu_should_be_as_expected(getrecipes_event, lambda_context):
 
 
 @pytest.fixture()
-def ordercheeseburger_event():
-    with open("./events/DELETE_burgers_cheeseburger_event.json", "r") as fp:
-        return json.load(fp)
+def _ordercheeseburger_event():
+    with open(file = "./events/DELETE_burgers_cheeseburger_event.json", mode = "r", encoding = "utf-8") as reader:
+        return json.load(reader)
 
 
-def test_cheeseburger_should_be_as_expected(ordercheeseburger_event, lambda_context):
-    response = app.lambda_handler(ordercheeseburger_event, lambda_context)
+def test_cheeseburger_should_be_as_expected(_ordercheeseburger_event, lambda_context):
+    response = app.lambda_handler(_ordercheeseburger_event, lambda_context)
 
     assert response["statusCode"] == 200
     body = json.loads(response["body"])
@@ -45,22 +44,22 @@ def test_cheeseburger_should_be_as_expected(ordercheeseburger_event, lambda_cont
 
 
 @pytest.fixture()
-def orderanyburger_event():
-    with open("./events/DELETE_burgers_any_event.json", "r") as fp:
-        return json.load(fp)
+def _orderanyburger_event():
+    with open(file = "./events/DELETE_burgers_any_event.json", mode = "r", encoding = "utf-8") as reader:
+        return json.load(reader)
 
 
-def test_anyburger_should_be_delivered(orderanyburger_event, lambda_context):
-    response = app.lambda_handler(orderanyburger_event, lambda_context)
+def test_anyburger_should_be_delivered(_orderanyburger_event, lambda_context):
+    response = app.lambda_handler(_orderanyburger_event, lambda_context)
     assert response["statusCode"] == 200
 
 
 @pytest.fixture()
-def ordernonexistingburger_event():
-    with open("./events/DELETE_burgers_foie-gras_event.json", "r") as fp:
-        return json.load(fp)
+def _ordernonexistingburger_event():
+    with open(file = "./events/DELETE_burgers_foie-gras_event.json", mode = "r", encoding = "utf-8") as reader:
+        return json.load(reader)
 
 
-def test_nonexistingburger_should_fail(ordernonexistingburger_event, lambda_context):
-    response = app.lambda_handler(ordernonexistingburger_event, lambda_context)
+def test_nonexistingburger_should_fail(_ordernonexistingburger_event, lambda_context):
+    response = app.lambda_handler(_ordernonexistingburger_event, lambda_context)
     assert response["statusCode"] == 404
