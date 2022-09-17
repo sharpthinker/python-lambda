@@ -17,7 +17,7 @@ readme = "README.md"
 python = "^3.9"
 aws-lambda-powertools = "^1.21.1"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 # new development dependencies can be added with 'poetry add -D yyy'
 pytest = "^7.0.0"
 pytest-cov = "^3.0.0"
