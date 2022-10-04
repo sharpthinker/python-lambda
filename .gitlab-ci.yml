@@ -1,7 +1,7 @@
 include:
   # Python template
   - project: "to-be-continuous/python"
-    ref: "5.1.0"
+    ref: "6.0.1"
     file: "/templates/gitlab-ci-python.yml"
   # Sonar template
   - project: "to-be-continuous/sonar"
@@ -13,7 +13,7 @@ include:
     file: "/templates/gitlab-ci-aws.yml"
   # Postman template
   - project: "to-be-continuous/postman"
-    ref: "3.0.0"
+    ref: "3.1.0"
     file: "/templates/gitlab-ci-postman.yml"
 
 # Global variables
