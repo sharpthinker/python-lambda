@@ -21,7 +21,7 @@ This project uses the following features from the GitLab CI Python template:
 
 The Python template also enforces:
 
-* [test report integration](https://docs.gitlab.com/ee/ci/unit_test_reports.html),
+* [test report integration](https://docs.gitlab.com/ee/ci/testing/unit_test_reports.html),
 * and [code coverage integration](https://docs.gitlab.com/ee/user/project/pipelines/settings.html#test-coverage-report-badge).
 
 ## SonarQube template features
