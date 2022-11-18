@@ -25,7 +25,7 @@ sam deploy ${TRACE+--debug} \
   --s3-bucket "$AWS_SAM_BUCKET" \
   --no-fail-on-empty-changeset \
   --no-confirm-changeset \
-  --parameter-overrides "AppName=$appname HostedZoneId=$AWS_HOSTED_ZONE_ID CustomDomainCertArn=$AWS_CUSTOM_DOMAIN_CERT_ARN" \
+  --parameter-overrides "AppName=$appname CustomDomainCertArn=$AWS_CUSTOM_DOMAIN_CERT_ARN" \
   --tags "ci-job-url=$CI_JOB_URL environment=$env"
 
 # Retrieve outputs (use cloudformation query)

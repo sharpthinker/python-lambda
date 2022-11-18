@@ -36,12 +36,13 @@ Parameters:
     Type: String
     Default: burger-maker-dev
     Description: the application short name
-  # HostedZoneId:
-  #   Type: String
-  #   Description: the Route53 hosted zone ID managing the custom DNS
-  # CustomDomainCertArn:
-  #   Type: String
-  #   Description: the custom DNS certificate ARN
+  BaseDomain:
+    Type: String
+    Default: samples.aws.to-be-continuous.com
+    Description: the base custom domain
+  CustomDomainCertArn:
+    Type: String
+    Description: the custom DNS certificate ARN
 
 Resources:
   # The Lambda function
@@ -78,40 +79,16 @@ Resources:
       OpenApiVersion: '2.0'
       StageName: v1
       EndpointConfiguration: REGIONAL
-    # Domain:
-    #   DomainName: !Sub ${AppName}.samples.aws.tobecontinuous.xyz
-    #   CertificateArn: !Ref CustomDomainCertArn
-    #   Route53:
-    #     DistributionDomainName: !Sub ${AppName}.samples.aws.tobecontinuous.xyz
-    #     HostedZoneId: !Ref HostedZoneId
-    #     # HostedZoneName: samples.aws.tobecontinuous.xyz.
-  # BurgerApiDomain:
-  #   Type: AWS::ApiGateway::DomainName
-  #   Properties:
-  #     DomainName: !Sub ${AppName}.samples.aws.tobecontinuous.xyz
-  #     CertificateArn: !Ref CustomDomainCertArn
-  #     # EndpointConfiguration:
-  #     #   Types:
-  #     #     - REGIONAL
-  # UrlMapping:
-  #   Type: AWS::ApiGateway::BasePathMapping
-  #   DependsOn: 
-  #     - BurgerApi
-  #   Properties:
-  #     DomainName: !Sub ${AppName}.samples.aws.tobecontinuous.xyz
-  #     RestApiId: !Ref BurgerApi
-  #     Stage: v1
-  # DnsRecord:
-  #   Type: 'AWS::Route53::RecordSet'
-  #   Properties:
-  #     HostedZoneName: samples.aws.tobecontinuous.xyz.
-  #     Name: samples.aws.tobecontinuous.xyz.
-  #     Type: A
-  #     AliasTarget:
-  #       HostedZoneId: !GetAtt BurgerApiDomain.RegionalHostedZoneId
-  #       DNSName: !GetAtt BurgerApiDomain.RegionalDomainName
+      Domain:
+        DomainName: !Sub "${AppName}.${BaseDomain}"
+        CertificateArn: !Ref CustomDomainCertArn
+        Route53:
+          HostedZoneName: !Sub "${BaseDomain}."
 
 Outputs:
-  BurgerApiUrl:
+  AwsApiUrl:
     Description: "API Gateway endpoint URL for the deployed environment"
     Value: !Sub "https://${BurgerApi}.execute-api.${AWS::Region}.amazonaws.com/v1"
+  BurgerApiUrl:
+    Description: "Custom API URL for the deployed environment"
+    Value: !Sub "https://${BurgerApi.DomainName}"
