@@ -27,7 +27,7 @@ variables:
   PYTHON_EXTRA_REQS_FILES: "requirements-dev.txt"
   BANDIT_ENABLED: "true"
   BANDIT_ARGS: "--skip B311 -r burger_maker/"
-  SAFETY_ENABLED: "true"
+  SAFETY_ENABLED: "false"
 
   # Use SonarQube from sonarcloud.io
   SONAR_HOST_URL: "https://sonarcloud.io"
