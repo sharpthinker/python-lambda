@@ -15,7 +15,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 # new runtime dependencies can be added with 'poetry add xxx'
 python = "^3.9"
-aws-lambda-powertools = "^1.29.1"
+aws-lambda-powertools = "^2.0.0"
 
 [tool.poetry.group.dev.dependencies]
 # new development dependencies can be added with 'poetry add -D yyy'
