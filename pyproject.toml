@@ -23,7 +23,7 @@ pytest = "^7.0.0"
 pytest-cov = "^4.0.0"
 pytest-env = "^0.8.0"
 black = "^21.12b0"
-mypy = "^0.982"
+mypy = "^0.991"
 
 [tool.pytest.ini_options]
 # this project uses "pytest" for unit testing
