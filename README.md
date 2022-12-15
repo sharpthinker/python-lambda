@@ -54,9 +54,9 @@ In order to perform AWS deployments, the project implements:
 
 Both scripts make use of variables dynamically evaluated and exposed by the AWS template:
 
-* `${appname}`: the application target name to use in this environment (ex: `myproject-review-fix-bug-12` or `myproject-staging`); 
+* `${environment_name}`: the application target name to use in this environment (ex: `myproject-review-fix-bug-12` or `myproject-staging`); 
   this is used as the SAM/CloudFormation [stack name](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-cli-command-reference-sam-deploy.html),
-* `${env}`: the environment type (`review`, `integration`, `staging` or `production`); added as a tag.
+* `${environment_type}`: the environment type (`review`, `integration`, `staging` or `production`); added as a tag.
 
 Lastly, the deployment script implements the [dynamic way](https://docs.gitlab.com/ee/ci/environments/#set-dynamic-environment-urls-after-a-job-finishes) of
 defining the environment URLs: retrieves the generated server URL as a [CloudFormation output](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html), and dumps it into a `environment_url.txt` file, supported by the template.

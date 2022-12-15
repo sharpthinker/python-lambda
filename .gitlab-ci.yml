@@ -9,7 +9,7 @@ include:
     file: "/templates/gitlab-ci-sonar.yml"
   # AWS template
   - project: "to-be-continuous/aws"
-    ref: "2.1.0"
+    ref: "2.3.0"
     file: "/templates/gitlab-ci-aws.yml"
   # Postman template
   - project: "to-be-continuous/postman"
@@ -42,6 +42,9 @@ variables:
   AWS_STAGING_ENABLED: "true"
   AWS_PROD_ENABLED: "true"
   AWS_BASE_APP_NAME: "burger-maker" # instead of default project name 'python-serverless-on-aws'
+
+  # Postman
+  REVIEW_ENABLED: "true"
 
 # Pipeline steps
 stages:

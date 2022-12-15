@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-echo "[aws-deploy] Deploy $appname..."
+echo "[aws-deploy] Deploy $environment_name..."
 
 # disable AWS CLI pager
 export AWS_PAGER=""
@@ -20,16 +20,16 @@ sam build ${TRACE+--debug}
 # AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY defined as secret CI/CD variable
 # AWS_DEFAULT_REGION and AWS_SAM_BUCKET defined as project CI/CD variable
 sam deploy ${TRACE+--debug} \
-  --stack-name "$appname" \
+  --stack-name "$environment_name" \
   --region "$AWS_DEFAULT_REGION" \
   --s3-bucket "$AWS_SAM_BUCKET" \
   --no-fail-on-empty-changeset \
   --no-confirm-changeset \
-  --parameter-overrides "AppName=$appname CustomDomainCertArn=$AWS_CUSTOM_DOMAIN_CERT_ARN" \
-  --tags "ci-job-url=$CI_JOB_URL environment=$env"
+  --parameter-overrides "AppName=$environment_name CustomDomainCertArn=$AWS_CUSTOM_DOMAIN_CERT_ARN" \
+  --tags "ci-job-url=$CI_JOB_URL environment=$environment_type"
 
 # Retrieve outputs (use cloudformation query)
-api_url=$(aws cloudformation describe-stacks --stack-name "$appname" --output text --query 'Stacks[0].Outputs[?OutputKey==`BurgerApiUrl`].OutputValue')
+api_url=$(aws cloudformation describe-stacks --stack-name "$environment_name" --output text --query 'Stacks[0].Outputs[?OutputKey==`BurgerApiUrl`].OutputValue')
 
 echo "Stack created/updated:"
 echo " - Api URL: $api_url"
