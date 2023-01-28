@@ -19,7 +19,7 @@ include:
 # Global variables
 variables:
   # Python
-  PYTHON_IMAGE: python:3.9
+  PYTHON_IMAGE: "registry.hub.docker.com/library/python:3.9"
   PYTEST_ENABLED: "true"
   PYTEST_ARGS: "tests/"
   PYLINT_ENABLED: "true"
