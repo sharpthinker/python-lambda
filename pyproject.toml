@@ -24,6 +24,9 @@ pytest-cov = "^4.0.0"
 pytest-env = "^0.8.0"
 black = "^21.12b0"
 mypy = "^0.991"
+jmespath = "^1.0.1"
+aws-lambda-powertools = {extras = ["aws-sdk"], version = "^2.10.0"}
+aws-xray-sdk = "^2.11.0"
 
 [tool.pytest.ini_options]
 # this project uses "pytest" for unit testing
