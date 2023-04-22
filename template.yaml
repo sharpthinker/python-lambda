@@ -21,7 +21,7 @@ Globals:
     Runtime: python3.9
     Tracing: Active # https://docs.aws.amazon.com/lambda/latest/dg/lambda-x-ray.html
     Layers:
-        - !Sub arn:aws:lambda:${AWS::Region}:017000801446:layer:AWSLambdaPowertoolsPython:33
+        - !Sub arn:aws:lambda:${AWS::Region}:017000801446:layer:AWSLambdaPowertoolsPythonV2:31
     Environment:
       Variables:
         # Powertools env vars: https://awslabs.github.io/aws-lambda-powertools-python/#environment-variables
