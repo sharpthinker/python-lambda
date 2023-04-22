@@ -11,9 +11,11 @@ The project deploys a basic serverless API developped in Python (3.9) on AWS Lam
 
 ## Python template features
 
-This project uses the following features from the GitLab CI Python template:
+This project uses [setuptools](https://setuptools.pypa.io/en/latest/) as dependency management and build system.
+It uses the following features from the GitLab CI Python template:
 
-* Uses the `pyproject.toml` build specs file with [Poetry](https://python-poetry.org/) as build backend,
+* Uses the `setup.cfg` build specs file with [Setuptools](https://setuptools.pypa.io/en/latest/index.html) as dependency management,
+* Declares `PYTHON_EXTRA_DEPS: "dev"` to install `dev` extra dependencies from `setup.cfg`,
 * Enables the [pytest](https://docs.pytest.org/) unit test framework by declaring the `$PYTEST_ENABLED` in the `.gitlab-ci.yml` variables,
 * Enables [pylint](https://pylint.pycqa.org/) by declaring the `$PYLINT_ENABLED` in the `.gitlab-ci.yml` variables,
 * Enables the [Bandit](https://pypi.org/project/bandit/) SAST analysis job by declaring the `$BANDIT_ENABLED` and skips the `B311`

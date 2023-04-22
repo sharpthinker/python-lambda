@@ -24,7 +24,7 @@ variables:
   PYTEST_ARGS: "tests/"
   PYLINT_ENABLED: "true"
   PYLINT_FILES: "burger_maker/ tests/"
-  PYTHON_EXTRA_REQS_FILES: "requirements-dev.txt"
+  PYTHON_EXTRA_DEPS: "dev"
   BANDIT_ENABLED: "true"
   BANDIT_ARGS: "--skip B311 -r burger_maker/"
   SAFETY_ENABLED: "false"
