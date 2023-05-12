@@ -3,5 +3,13 @@
   "extends": [
     "config:base", 
     ":disableDependencyDashboard"
+  ],
+  "packageRules": [
+    {
+      "matchDatasources": [
+        "gitlab-tags"
+      ],
+      "versioning": "docker"
+    }
   ]
 }
