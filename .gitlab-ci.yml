@@ -13,7 +13,7 @@ include:
     file: "/templates/gitlab-ci-aws.yml"
   # Postman template
   - project: "to-be-continuous/postman"
-    ref: "3.1.1"
+    ref: "3.2.0"
     file: "/templates/gitlab-ci-postman.yml"
 
 # Global variables
