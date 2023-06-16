@@ -5,7 +5,7 @@ include:
     file: "/templates/gitlab-ci-python.yml"
   # Sonar template
   - project: "to-be-continuous/sonar"
-    ref: "3.2.0"
+    ref: "3.3.0"
     file: "/templates/gitlab-ci-sonar.yml"
   # AWS template
   - project: "to-be-continuous/aws"
