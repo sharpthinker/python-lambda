@@ -7,7 +7,7 @@ This project sample shows the usage of _to be continuous_ templates:
 * AWS (Amazon Web Services)
 * Postman
 
-The project deploys a basic serverless API developped in Python (3.9) on AWS Lambda, and implements automated accetance tests with Postman.
+The project deploys a basic serverless API developed in Python (3.9) on AWS Lambda, and implements automated acceptance tests with Postman.
 
 ## Python template features
 
