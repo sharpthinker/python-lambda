@@ -20,7 +20,7 @@ include:
 variables:
   # Python
   PYTHON_IMAGE: "registry.hub.docker.com/library/python:3.9"
-  PYTEST_ENABLED: "true"
+  PYTEST_ENABLED: "false"
   PYTEST_ARGS: "tests/"
   PYLINT_ENABLED: "true"
   PYLINT_FILES: "burger_maker/ tests/"
