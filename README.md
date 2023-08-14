@@ -1,4 +1,4 @@
-# Python Serverless on AWS project sample
+# Python Lambdas project sample
 
 This project sample shows the usage of _to be continuous_ templates:
 
