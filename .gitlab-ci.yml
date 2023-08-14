@@ -3,10 +3,6 @@ include:
   - project: "to-be-continuous/python"
     ref: "6.3.3"
     file: "/templates/gitlab-ci-python.yml"
-  # Sonar template
-  - project: "to-be-continuous/sonar"
-    ref: "3.3.0"
-    file: "/templates/gitlab-ci-sonar.yml"
   # AWS template
   - project: "to-be-continuous/aws"
     ref: "3.1.0"
@@ -20,7 +16,7 @@ include:
 variables:
   # Python
   PYTHON_IMAGE: "registry.hub.docker.com/library/python:3.9"
-  PYTEST_ENABLED: "false"
+  PYTEST_ENABLED: "true"
   PYTEST_ARGS: "tests/"
   PYLINT_ENABLED: "true"
   PYLINT_FILES: "burger_maker/ tests/"
@@ -28,11 +24,6 @@ variables:
   BANDIT_ENABLED: "true"
   BANDIT_ARGS: "--skip B311 -r burger_maker/"
   SAFETY_ENABLED: "false"
-
-  # Use SonarQube from sonarcloud.io
-  SONAR_HOST_URL: "https://sonarcloud.io"
-  # organization & projectKey defined in sonar-project.properties
-  # SONAR_TOKEN defined as a secret CI/CD variable
 
   # AWS
   # use an image with both AWS and SAM CLI
